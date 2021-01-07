@@ -17,7 +17,9 @@ module.exports = {
         port: 9000
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: "index.html"
+        }),
         new MiniCssExtractPlugin({
             filename: 'bundle.css',
         }),
@@ -29,8 +31,8 @@ module.exports = {
                 test: /\.s[ac]ss$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'sass-loader'
+                    'css-preloader',
+                    'sass-preloader'
                 ]
 
             },

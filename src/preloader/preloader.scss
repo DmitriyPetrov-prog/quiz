@@ -1,0 +1,57 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+
+  &__text {
+    display: block;
+    color: black;
+    padding-bottom: 2rem;
+    font-size: 3.5rem;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    width: 12rem;
+  }
+
+  &__dot {
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: black;
+
+    &-1 {
+      animation: flow .3s ease 0s infinite alternate;
+    }
+    &-2 {
+      animation: flow .3s ease .15s infinite alternate;
+    }
+    &-3 {
+      animation: flow .3s ease .30s infinite alternate;
+    }
+
+    &-4 {
+      animation: flow .3s ease .45s infinite alternate;
+    }
+  }
+}
+
+@keyframes flow {
+  from {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+
+  to {
+    opacity: .2;
+    transform: scale(.75);
+  }
+}
+
