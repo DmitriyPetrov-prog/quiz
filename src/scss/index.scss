@@ -1,3 +1,10 @@
 @import "~normalize.css";
-@import "../select/styles.scss";
-@import "../preloader/preloader";
+@import "../preloader/preloader.scss";
+@import "../plugins/select/styles.scss";
+@import "../pages/menu/menu.scss";
+
+.app {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
