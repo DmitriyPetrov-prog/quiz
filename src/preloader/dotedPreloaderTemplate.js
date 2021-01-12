@@ -1,4 +1,4 @@
-const preloaderTemplate = () => {
+const dotedPreloaderTemplate = () => {
     return  `
         <div class="loader" data-type="preloader">
             <span class="loader__text">Loading</span>
@@ -13,5 +13,5 @@ const preloaderTemplate = () => {
 }
 
 export {
-    preloaderTemplate
+    dotedPreloaderTemplate
 }

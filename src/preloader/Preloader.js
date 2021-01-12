@@ -1,21 +1,11 @@
-import {preloaderTemplate} from "./preloaderTemplate";
-
 const Preloader = class {
-    constructor(parent) {
-        this.parent = parent;
+    show() {
+        throw new Error("Method 'show()' should be implemented");
     }
 
-    render() {
-        this.parent.insertAdjacentHTML("afterbegin", preloaderTemplate());
+    hide() {
+        throw new Error("Method 'hide()' should be implemented");
     }
-
-    clear() {
-        const loader = this.parent.querySelector("[data-type='preloader']");
-        if (loader) {
-            loader.parentElement.removeChild(loader);
-        }
-    }
-
 }
 
 export {
