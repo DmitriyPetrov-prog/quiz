@@ -3,7 +3,7 @@ import {menuTemplate} from "./menuTemplate";
 import {quizCategory, quizDifficulty, quizType} from "../../plugins/select/selectData";
 import {SelectPlugin} from "../../plugins/select/select";
 import {dataLoader} from "../../dataLoader";
-import {Preloader} from "../../preloader/Preloader";
+import {DotedPreloader} from "../../preloader/DotedPreloader";
 import {DataRequester} from "../../DataRequester";
 
 const Menu = class {
@@ -26,7 +26,7 @@ const Menu = class {
     }
 
     async getDataFromAPI() {
-        return await dataLoader(new Preloader(this.root), new DataRequester(this.url))
+        return await dataLoader(new DotedPreloader(this.root), new DataRequester(this.url))
     }
 
     init() {
