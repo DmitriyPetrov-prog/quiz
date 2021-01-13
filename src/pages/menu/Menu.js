@@ -1,15 +1,15 @@
-import {CATEGORIES_URL} from "../../constants";
+import {URL} from "../../constants";
 import {menuTemplate} from "./menuTemplate";
 import {quizCategory, quizDifficulty, quizType} from "../../plugins/select/selectData";
 import {SelectPlugin} from "../../plugins/select/select";
-import {dataLoader} from "../../dataLoader";
+import {dataLoader} from "../../data/dataLoader";
 import {DotedPreloader} from "../../preloader/DotedPreloader";
-import {DataRequester} from "../../DataRequester";
+import {Fetch} from "../../data/Fetch";
 
 const Menu = class {
     constructor(root) {
         this.root = root;
-        this.url = CATEGORIES_URL;
+        this.url = URL.CATEGORIES;
         this.startBtn = null;
 
         this.render();
@@ -26,7 +26,7 @@ const Menu = class {
     }
 
     async getDataFromAPI() {
-        return await dataLoader(new DotedPreloader(this.root), new DataRequester(this.url))
+        return await dataLoader(new DotedPreloader(this.root), new Fetch(this.url))
     }
 
     init() {
