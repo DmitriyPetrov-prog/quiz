@@ -1,9 +1,12 @@
-const DataRequester = class {
+import {Requester} from "./Requester";
+
+const Fetch = class extends Requester{
     constructor(url) {
+        super();
         this.url = url;
     }
 
-    async getData() {
+    async get() {
         return fetch(this.url)
             .then(res => {
                 if(res.ok) {
@@ -18,5 +21,5 @@ const DataRequester = class {
 }
 
 export {
-    DataRequester
+    Fetch
 }
