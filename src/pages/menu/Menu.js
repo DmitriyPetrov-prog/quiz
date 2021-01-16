@@ -5,6 +5,7 @@ import {SelectPlugin} from "../../plugins/select/select";
 import {dataLoader} from "../../data/dataLoader";
 import {DotedPreloader} from "../../preloader/DotedPreloader";
 import {Fetch} from "../../data/Fetch";
+import {buildURL} from "../../buildURL";
 
 const Menu = class {
     constructor(root) {
@@ -38,12 +39,18 @@ const Menu = class {
 
     createQuiz(event) {
         event.preventDefault();
-        console.log(this.getQuizOptions())
+        console.log(buildURL(this.getQuizOptions()));
         this.destroy();
-        this.root.innerHTML = "<h1>Quiz is comming</h1>";
     }
 
     getQuizOptions() {
+        const getDataFromSelect = (selector) => {
+            return this.root
+                .querySelector(`#${selector}`)
+                .querySelector("[data-type='input_value']")
+                .dataset.value;
+        };
+
         const questionQuantity =
             Number(
                 this.root
@@ -51,20 +58,9 @@ const Menu = class {
                     .value
             );
 
-        const category = this.root
-            .querySelector("#category")
-            .querySelector("[data-type='input_value']")
-            .innerText;
-
-        const difficulty = this.root
-            .querySelector("#difficulty")
-            .querySelector("[data-type='input_value']")
-            .innerText;
-
-        const type = this.root
-            .querySelector("#type")
-            .querySelector("[data-type='input_value']")
-            .innerText;
+        const category = getDataFromSelect("category");
+        const difficulty = getDataFromSelect("difficulty");
+        const type = getDataFromSelect("type");
 
         return {
             questionQuantity,

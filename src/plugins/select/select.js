@@ -86,6 +86,7 @@ export class SelectPlugin {
 
         this.selectedId = Number(id);
         this.inputValue.textContent = this._currentItem.name;
+        this.inputValue.dataset.value = this._currentItem.value;
 
         this.el.querySelectorAll('[data-type="item"]').forEach(element => {
             element.classList.remove("selected");

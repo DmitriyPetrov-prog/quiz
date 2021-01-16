@@ -22,7 +22,7 @@ const getListItems = (options) => {
             isSelected(item, selectedId) ? selected = "selected" : selected = "";
 
             return `
-                <li tabindex="0" class="select__item ${selected}" data-id="${item.id}" data-type="item">${item.name}</li>
+                <li tabindex="0" class="select__item ${selected}" data-id="${item.id}" data-type="item" data-value="${item.value || ""}">${item.name}</li>
             `;
         })
         .join("");
