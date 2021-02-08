@@ -5,10 +5,10 @@ import {SelectPlugin} from "../../plugins/select/select";
 import {DataLoader} from "../../data/DataLoader";
 import {DotedPreloader} from "../../preloader/DotedPreloader";
 import {Fetch} from "../../data/Fetch";
-import {buildURL} from "../../buildURL";
-import {Quiz} from "../game/Quiz";
+import {buildURL} from "../../data/buildURL";
+import {QuizPage} from "../quiz/QuizPage";
 
-const Menu = class {
+const MenuPage = class {
     constructor(root) {
         this.root = root;
         this.url = URL.CATEGORIES;
@@ -37,7 +37,7 @@ const Menu = class {
 
             const url = buildURL(this.getQuizOptions());
             this.destroy();
-            new Quiz(this.root, url).startQuiz();
+            new QuizPage(this.root, url).startQuiz();
         }
     }
 
@@ -75,5 +75,5 @@ const Menu = class {
 }
 
 export {
-    Menu
+    MenuPage
 }
