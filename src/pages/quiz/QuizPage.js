@@ -2,8 +2,9 @@ import {quizTemplate} from "./quizTemplate";
 import {DataLoader} from "../../data/DataLoader";
 import {DotedPreloader} from "../../preloader/DotedPreloader";
 import {Fetch} from "../../data/Fetch";
+import {Quiz} from "./Quiz";
 
-const Quiz = class {
+const QuizPage = class {
     constructor(root, url) {
         this.root = root;
         this.url = url;
@@ -19,10 +20,10 @@ const Quiz = class {
 
     action(event) {
         if (event.target.dataset.type === "answer") {
-            this.chooseAnswer(event)
+            this.chooseAnswer(event);
         }
         if (event.target.dataset.type === "next") {
-            this.getNextQuestion()
+            this.renderNextQuestion();
         }
     }
 
@@ -30,53 +31,27 @@ const Quiz = class {
         const answersBtn = this.root.querySelectorAll("[data-type='answer']");
         const nextBtn = this.root.querySelector("[data-type='next']");
 
-        const correctAnswer = this.currentQuestion.correct_answer;
-        const current = event.target;
+        const correctAnswer = this.quiz.currentQuestion.correct_answer;
+        const userAnswer = event.target.value;
 
 
-        if (current.value === correctAnswer) {
-            current.classList.add("correct");
-            this.correctAnswerCounter++;
+        if (userAnswer === correctAnswer) {
+            event.target.classList.add("correct");
+            this.quiz.increaseCorrectAnswerCounter();
         } else {
-            current.classList.add("incorrect");
+            event.target.classList.add("incorrect");
             Array.from(answersBtn).find(b => b.value === correctAnswer).classList.add("correct")
         }
+        this.quiz.addUserResult(this.quiz.currentQuestion.question, correctAnswer, userAnswer);
         answersBtn.forEach(btn => btn.style.pointerEvents = "none");
         nextBtn.style.visibility = "visible";
     }
 
-    getNextQuestion() {
-        const currentQuestionNumber = this.currentIndex + 1;
 
-        if (this.currentIndex < this.numberOfQuestions) {
-            this.currentQuestion = this.questions[this.currentIndex]
-            this.renderQuestion(this.currentQuestion, this.numberOfQuestions, currentQuestionNumber);
-
-            this.currentIndex++;
-        } else {
-            this.showResults();
-        }
-    }
 
     showResults() {
         this.destroy();
-        const statistics = this.numberOfQuestions ? (this.correctAnswerCounter *100) / this.numberOfQuestions : 0;
-        this.root.innerHTML = `<h1>Your results is: ${statistics.toFixed(2)}%</h1>`;
-    }
-
-    async startQuiz() {
-        const {response_code, results} = await this.dataFromAPIWithPreloader.getData();
-        if (response_code !== 0) {
-            console.error("something goes wrong. please try later")
-        }
-
-        this.questions = this.decode(results);
-        this.numberOfQuestions = results.length;
-        this.currentIndex = 0;
-        this.currentQuestion = results[this.currentIndex - 1];
-        this.correctAnswerCounter = 0;
-        this.getNextQuestion()
-
+        console.log(this.quiz.getQuizStatistic())
     }
 
     decode(obj) {
@@ -91,7 +66,7 @@ const Quiz = class {
     }
 
 
-    renderQuestion(question, len, currentIndex) {
+    renderQuestion(question, {len, currentIndex}) {
         this.root.innerHTML = "";
         this.root.insertAdjacentHTML('afterbegin', quizTemplate(question, len, currentIndex));
     }
@@ -101,10 +76,27 @@ const Quiz = class {
         this.root.removeEventListener("click", this.action);
     }
 
+    async startQuiz() {
+        const {response_code, results} = await this.dataFromAPIWithPreloader.getData();
+        if (response_code !== 0) {
+            console.error("something goes wrong. please try later")
+        }
+        this.quiz = new Quiz(this.decode(results));
+        this.renderNextQuestion()
+    }
 
+    renderNextQuestion() {
+
+        if (this.quiz.hasNextQuestion()) {
+            this.renderQuestion(this.quiz.getNextQuestion(), this.quiz.getOptions());
+        } else {
+            this.showResults();
+        }
+    }
 }
 
+
 export {
-    Quiz
+    QuizPage
 }
 

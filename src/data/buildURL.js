@@ -1,4 +1,4 @@
-import {URL} from "./constants";
+import {URL} from "../constants";
 
 const buildURL = (options) => {
     const {questionQuantity, category, difficulty, type} = options;
