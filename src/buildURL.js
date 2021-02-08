@@ -6,7 +6,8 @@ const buildURL = (options) => {
          + getApiAmount(questionQuantity)
          + getApiCategory(category)
          + getApiDifficulty(difficulty)
-         + getApiType(type);
+         + getApiType(type)
+         + URL.ENCODE_TYPE;
 }
 
 const getApiAmount = (amount) => {

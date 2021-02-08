@@ -1,13 +1,12 @@
 import {Requester} from "./Requester";
 
 const Fetch = class extends Requester{
-    constructor(url) {
+    constructor() {
         super();
-        this.url = url;
     }
 
-    async get() {
-        return fetch(this.url)
+    get(url) {
+        return fetch(url)
             .then(res => {
                 if(res.ok) {
                     return res.json();

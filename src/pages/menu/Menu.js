@@ -2,45 +2,43 @@ import {URL} from "../../constants";
 import {menuTemplate} from "./menuTemplate";
 import {quizCategory, quizDifficulty, quizType} from "../../plugins/select/selectData";
 import {SelectPlugin} from "../../plugins/select/select";
-import {dataLoader} from "../../data/dataLoader";
+import {DataLoader} from "../../data/DataLoader";
 import {DotedPreloader} from "../../preloader/DotedPreloader";
 import {Fetch} from "../../data/Fetch";
 import {buildURL} from "../../buildURL";
+import {Quiz} from "../game/Quiz";
 
 const Menu = class {
     constructor(root) {
         this.root = root;
         this.url = URL.CATEGORIES;
-        this.startBtn = null;
+        this.dataFromAPIWithPreloader = new DataLoader(new DotedPreloader(this.root), new Fetch(), this.url);
 
-        this.render();
         this.init();
     }
 
     async render() {
-        this.root.innerHTML = menuTemplate();
+        this.root.insertAdjacentHTML('afterbegin', menuTemplate())
 
-        const {trivia_categories} = await this.getDataFromAPI();
+        const {trivia_categories} = await this.dataFromAPIWithPreloader.getData();
         [quizCategory(trivia_categories), quizDifficulty(), quizType()].forEach(category => {
             new SelectPlugin(category.selector, category.options)
         });
     }
 
-    async getDataFromAPI() {
-        return await dataLoader(new DotedPreloader(this.root), new Fetch(this.url))
-    }
-
     init() {
-        this.startBtn = this.root.querySelector("#start");
-
         this.createQuiz = this.createQuiz.bind(this);
-        this.startBtn.addEventListener("click", this.createQuiz);
+        this.root.addEventListener("click", this.createQuiz);
     }
 
     createQuiz(event) {
-        event.preventDefault();
-        console.log(buildURL(this.getQuizOptions()));
-        this.destroy();
+        if (event.target.id === "start") {
+            event.preventDefault();
+
+            const url = buildURL(this.getQuizOptions());
+            this.destroy();
+            new Quiz(this.root, url).startQuiz();
+        }
     }
 
     getQuizOptions() {
@@ -72,7 +70,7 @@ const Menu = class {
 
     destroy() {
         this.root.innerHTML = "";
-        this.startBtn.removeEventListener("click", this.createQuiz);
+        this.root.removeEventListener("click", this.createQuiz);
     }
 }
 
