@@ -3,6 +3,7 @@ import {DataLoader} from "../../data/DataLoader";
 import {DotedPreloader} from "../../preloader/DotedPreloader";
 import {Fetch} from "../../data/Fetch";
 import {Quiz} from "./Quiz";
+import {ResultsPage} from "../results/ResultsPage";
 
 const QuizPage = class {
     constructor(root, url) {
@@ -51,7 +52,7 @@ const QuizPage = class {
 
     showResults() {
         this.destroy();
-        console.log(this.quiz.getQuizStatistic())
+        new ResultsPage(this.root, this.quiz.getQuizStatistic()).render();
     }
 
     decode(obj) {

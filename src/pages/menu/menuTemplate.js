@@ -13,7 +13,7 @@ const menuTemplate = () => {
                 <div id="category"></div>
                 <div id="difficulty"></div>
                 <div id="type"></div>
-                <button class="start" id="start">Start quiz</button>
+                <button class="start btn" id="start">Start quiz</button>
             </form>
         </div>
     `;

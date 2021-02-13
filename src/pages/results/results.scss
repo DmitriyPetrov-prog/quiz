@@ -1,0 +1,47 @@
+.results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 40%;
+
+
+  &__questions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.question {
+  border: 1px solid black;
+  border-radius: .5rem;
+  width: 100%;
+  margin-top: .3rem;
+  padding: .5rem 0;
+  text-align: center;
+
+  &__number {
+
+  }
+
+  &__text {
+    margin: .5rem 0;
+  }
+  &__answer {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+
+  &.correct {
+    background-color: green;
+  }
+
+  &.incorrect {
+    background-color: red;
+  }
+
+
+}
